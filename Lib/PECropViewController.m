@@ -14,12 +14,9 @@
 @property (nonatomic) PECropView *cropView;
 @property (nonatomic) UIActionSheet *actionSheet;
 
-- (void)commonInit;
-
 @end
 
 @implementation PECropViewController
-@synthesize rotationEnabled = _rotationEnabled;
 
 + (NSBundle *)bundle
 {
@@ -36,31 +33,6 @@
 static inline NSString *PELocalizedString(NSString *key, NSString *comment)
 {
     return [[PECropViewController bundle] localizedStringForKey:key value:nil table:@"Localizable"];
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    
-    if (self) {
-        [self commonInit];
-    }
-    
-    return self;
-}
-
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    
-    if (self) {
-        [self commonInit];
-    }
-    
-    return self;
-}
-
-- (void)commonInit {
-    self.rotationEnabled = YES;
 }
 
 #pragma mark -
@@ -103,8 +75,6 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
     self.navigationController.toolbarHidden = self.toolbarHidden;
     
     self.cropView.image = self.image;
-    
-    self.cropView.rotationGestureRecognizer.enabled = _rotationEnabled;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -172,27 +142,6 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
     self.cropView.imageCropRect = imageCropRect;
 }
 
-- (BOOL)isRotationEnabled
-{
-    return _rotationEnabled;
-}
-
-- (void)setRotationEnabled:(BOOL)rotationEnabled
-{
-    _rotationEnabled = rotationEnabled;
-    self.cropView.rotationGestureRecognizer.enabled = _rotationEnabled;
-}
-
-- (CGAffineTransform)rotationTransform
-{
-    return self.cropView.rotation;
-}
-
-- (CGRect)zoomedCropRect
-{
-    return self.cropView.zoomedCropRect;
-}
-
 - (void)resetCropRect
 {
     [self.cropView resetCropRect];
@@ -214,9 +163,7 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
 
 - (void)done:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(cropViewController:didFinishCroppingImage:transform:cropRect:)]) {
-        [self.delegate cropViewController:self didFinishCroppingImage:self.cropView.croppedImage transform: self.cropView.rotation cropRect: self.cropView.zoomedCropRect];
-    } else if ([self.delegate respondsToSelector:@selector(cropViewController:didFinishCroppingImage:)]) {
+    if ([self.delegate respondsToSelector:@selector(cropViewController:didFinishCroppingImage:)]) {
         [self.delegate cropViewController:self didFinishCroppingImage:self.cropView.croppedImage];
     }
 }
@@ -228,15 +175,9 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
                                           cancelButtonTitle:PELocalizedString(@"Cancel", nil)
                                      destructiveButtonTitle:nil
                                           otherButtonTitles:
-                        PELocalizedString(@"Original", nil),
                         PELocalizedString(@"Square", nil),
-                        PELocalizedString(@"3 x 2", nil),
-                        PELocalizedString(@"3 x 5", nil),
                         PELocalizedString(@"4 x 3", nil),
-                        PELocalizedString(@"4 x 6", nil),
-                        PELocalizedString(@"5 x 7", nil),
-                        PELocalizedString(@"8 x 10", nil),
-                        PELocalizedString(@"16 x 9", nil), nil];
+                        PELocalizedString(@"3 x 4", nil), nil];
     [self.actionSheet showFromToolbar:self.navigationController.toolbar];
 }
 
@@ -244,7 +185,7 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0) {
+   /* if (buttonIndex == 0) {
         CGRect cropRect = self.cropView.cropRect;
         CGSize size = self.cropView.image.size;
         CGFloat width = size.width;
@@ -258,31 +199,17 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
             cropRect.size = CGSizeMake(CGRectGetWidth(cropRect), CGRectGetWidth(cropRect) * ratio);
         }
         self.cropView.cropRect = cropRect;
-    } else if (buttonIndex == 1) {
+    } else */
+    if (buttonIndex == 0) {
         self.cropView.cropAspectRatio = 1.0f;
+    } else if (buttonIndex == 1) {
+        self.cropView.cropAspectRatio = 4.0f / 3.0f;
     } else if (buttonIndex == 2) {
-        self.cropView.cropAspectRatio = 2.0f / 3.0f;
-    } else if (buttonIndex == 3) {
-        self.cropView.cropAspectRatio = 3.0f / 5.0f;
-    } else if (buttonIndex == 4) {
-        CGFloat ratio = 3.0f / 4.0f;
-        CGRect cropRect = self.cropView.cropRect;
-        CGFloat width = CGRectGetWidth(cropRect);
-        cropRect.size = CGSizeMake(width, width * ratio);
-        self.cropView.cropRect = cropRect;
-    } else if (buttonIndex == 5) {
-        self.cropView.cropAspectRatio = 4.0f / 6.0f;
-    } else if (buttonIndex == 6) {
-        self.cropView.cropAspectRatio = 5.0f / 7.0f;
-    } else if (buttonIndex == 7) {
-        self.cropView.cropAspectRatio = 8.0f / 10.0f;
-    } else if (buttonIndex == 8) {
-        CGFloat ratio = 9.0f / 16.0f;
-        CGRect cropRect = self.cropView.cropRect;
-        CGFloat width = CGRectGetWidth(cropRect);
-        cropRect.size = CGSizeMake(width, width * ratio);
-        self.cropView.cropRect = cropRect;
+        self.cropView.cropAspectRatio = 3.0f / 4.0f;
     }
+    
+    
+    self.cropView.keepingCropAspectRatio = YES;
 }
 
 @end
