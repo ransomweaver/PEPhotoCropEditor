@@ -66,7 +66,7 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
         UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                        target:nil
                                                                                        action:nil];
-        UIBarButtonItem *constrainButton = [[UIBarButtonItem alloc] initWithTitle:PELocalizedString(@"Constrain", nil)
+        UIBarButtonItem *constrainButton = [[UIBarButtonItem alloc] initWithTitle:PELocalizedString(@"Change Constraint", nil)
                                                                             style:UIBarButtonItemStyleBordered
                                                                            target:self
                                                                            action:@selector(constrain:)];
@@ -75,13 +75,15 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
     self.navigationController.toolbarHidden = self.toolbarHidden;
     
     self.cropView.image = self.image;
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    if (self.cropAspectRatio != 0) {
+    
+   /* if (self.cropAspectRatio != 0) {
         self.cropAspectRatio = self.cropAspectRatio;
     }
     if (!CGRectEqualToRect(self.cropRect, CGRectZero)) {
@@ -91,7 +93,7 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
         self.imageCropRect = self.imageCropRect;
     }
     
-    self.keepingCropAspectRatio = self.keepingCropAspectRatio;
+    self.keepingCropAspectRatio = self.keepingCropAspectRatio; */
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -200,9 +202,9 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
         self.cropView.cropRect = cropRect;
     } else */
     if (buttonIndex == 0) {
-        self.cropView.cropAspectRatio = 1.5f;
+        self.cropView.cropAspectRatio = 0.66666666666667f;
     } else if (buttonIndex == 1) {
-        self.cropView.cropAspectRatio = 0.6f;
+        self.cropView.cropAspectRatio = 1.66666666666667f;
     }
     
     

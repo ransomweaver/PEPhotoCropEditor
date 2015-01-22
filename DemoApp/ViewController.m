@@ -81,7 +81,11 @@
         navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     }
     
-    [self presentViewController:navigationController animated:YES completion:NULL];
+    [self presentViewController:navigationController animated:YES completion:^{
+        [controller setCropAspectRatio:1.66666666666667f];
+        [controller setKeepingCropAspectRatio:YES];
+        [controller resetCropRectAnimated:YES];
+    }];
 }
 
 - (IBAction)cameraButtonAction:(id)sender
