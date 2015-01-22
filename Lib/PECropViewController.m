@@ -23,7 +23,7 @@
     static NSBundle *bundle = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSURL *bundleURL = [[NSBundle mainBundle] URLForResource:@"PEPhotoCropEditor" withExtension:@"bundle"];
+        NSURL *bundleURL = [[NSBundle bundleForClass:[PECropViewController class]] URLForResource:@"PEPhotoCropEditor" withExtension:@"bundle"];
         bundle = [[NSBundle alloc] initWithURL:bundleURL];
     });
     
@@ -175,9 +175,8 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
                                           cancelButtonTitle:PELocalizedString(@"Cancel", nil)
                                      destructiveButtonTitle:nil
                                           otherButtonTitles:
-                        PELocalizedString(@"Square", nil),
-                        PELocalizedString(@"4 x 3", nil),
-                        PELocalizedString(@"3 x 4", nil), nil];
+                        PELocalizedString(@"Tall", nil),
+                        PELocalizedString(@"Wide", nil), nil];
     [self.actionSheet showFromToolbar:self.navigationController.toolbar];
 }
 
@@ -201,11 +200,9 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
         self.cropView.cropRect = cropRect;
     } else */
     if (buttonIndex == 0) {
-        self.cropView.cropAspectRatio = 1.0f;
+        self.cropView.cropAspectRatio = 1.5f;
     } else if (buttonIndex == 1) {
-        self.cropView.cropAspectRatio = 4.0f / 3.0f;
-    } else if (buttonIndex == 2) {
-        self.cropView.cropAspectRatio = 3.0f / 4.0f;
+        self.cropView.cropAspectRatio = 0.6f;
     }
     
     
