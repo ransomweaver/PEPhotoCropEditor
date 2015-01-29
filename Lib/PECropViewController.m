@@ -62,7 +62,7 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
                                                                                            target:self
                                                                                            action:@selector(done:)];
 
-    if (!self.toolbarItems) {
+    if (!self.toolbarItems && _cropAspectRatio != 1) {
         UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                        target:nil
                                                                                        action:nil];
