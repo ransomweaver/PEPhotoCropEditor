@@ -62,7 +62,7 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
                                                                                            target:self
                                                                                            action:@selector(done:)];
 
-    if (!self.toolbarItems && _cropAspectRatio != 1) {
+    if (!self.toolbarItems) {
         UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                        target:nil
                                                                                        action:nil];
@@ -112,13 +112,13 @@ static inline NSString *PELocalizedString(NSString *key, NSString *comment)
 - (void)setKeepingCropAspectRatio:(BOOL)keepingCropAspectRatio
 {
     _keepingCropAspectRatio = keepingCropAspectRatio;
-    self.cropView.keepingCropAspectRatio = self.keepingCropAspectRatio;
+    self.cropView.keepingCropAspectRatio = keepingCropAspectRatio;
 }
 
 - (void)setCropAspectRatio:(CGFloat)cropAspectRatio
 {
     _cropAspectRatio = cropAspectRatio;
-    self.cropView.cropAspectRatio = self.cropAspectRatio;
+    self.cropView.cropAspectRatio = cropAspectRatio;
 }
 
 - (void)setCropRect:(CGRect)cropRect
